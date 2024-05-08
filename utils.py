@@ -2,6 +2,48 @@ import re
 
 def strip_colors(input_string: str) -> str:
 	"""
-	Strips color information from a string
+	Strips the color information from a string in starbound
 	"""
 	return re.sub(f'\\^\\w+?;', '', input_string)
+
+
+def joinWith(join: str, left: str, right: str) -> str:
+	"""
+	Taken from: https://github.com/rwf93/Starbound/blob/416da8fe8f102213160562ba372adc2a42bcdfca/source/core/StarString.cpp#L48-L65
+	"""
+	if left == "":
+		return right
+	if right == "":
+		return left
+	
+	if left.endswith(join):
+		if right.startswith(join):
+			return left + right[len(join):]
+		return left + right
+	else:
+		if right.startswith(join):
+			return left + right
+		return left + join + right
+
+def playtime_to_string(time: float) -> str:
+	"""
+	Taken from the (probably) original implementation: https://github.com/rwf93/Starbound/blob/416da8fe8f102213160562ba372adc2a42bcdfca/source/core/StarTime.cpp#L23-L46
+	"""
+	hours: str = ""
+	minutes: str = ""
+	seconds: str = ""
+	milliseconds: str = ""
+
+	if time >= 3600:
+		numHours: int = int(time / 3600)
+		hours = f"{numHours} hour{"" if numHours == 1 else "s"}"
+	if time >= 60:
+		numMinutes: int = int((time / 60) % 60)
+		minutes = f"{numMinutes} minute{"" if numMinutes == 1 else "s"}"
+	if time >= 1:
+		numSeconds: int = int(time % 60)
+		seconds = f"{numSeconds} second{"" if numSeconds == 1 else "s"}"
+	numMilliseconds: int = round(time * 1000)
+	milliseconds = f"{numMilliseconds} milliseconds{"" if numMilliseconds == 1 else "s"}"
+
+	return joinWith(", ", joinWith(", ", hours, minutes), joinWith(", ", seconds, milliseconds))
