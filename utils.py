@@ -1,11 +1,16 @@
 import re
 
+def list_to_str(list: list, join: str) -> str:
+	return join.join(str(l) for l in list)
+
 def strip_colors(input_string: str) -> str:
 	"""
 	Strips the color information from a string in starbound
 	"""
 	return re.sub(f'\\^\\w+?;', '', input_string)
 
+def strip_planet_number(input_string: str) -> str:
+	return re.sub(f'[VI]+(?![\\w])( - [a-z])?', '', strip_colors(input_string)).strip()
 
 def joinWith(join: str, left: str, right: str) -> str:
 	"""
@@ -44,6 +49,6 @@ def playtime_to_string(time: float) -> str:
 		numSeconds: int = int(time % 60)
 		seconds = f"{numSeconds} second{"" if numSeconds == 1 else "s"}"
 	numMilliseconds: int = round(time * 1000)
-	milliseconds = f"{numMilliseconds} milliseconds{"" if numMilliseconds == 1 else "s"}"
+	milliseconds = f"{numMilliseconds} millisecond{"" if numMilliseconds == 1 else "s"}"
 
 	return joinWith(", ", joinWith(", ", hours, minutes), joinWith(", ", seconds, milliseconds))
