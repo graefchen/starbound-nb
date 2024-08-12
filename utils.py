@@ -41,14 +41,14 @@ def playtime_to_string(time: float) -> str:
 
 	if time >= 3600:
 		numHours: int = int(time / 3600)
-		hours = f"{numHours} hour{"" if numHours == 1 else "s"}"
+		hours = f"{numHours} hour{'' if numHours == 1 else 's'}"
 	if time >= 60:
 		numMinutes: int = int((time / 60) % 60)
-		minutes = f"{numMinutes} minute{"" if numMinutes == 1 else "s"}"
+		minutes = f"{numMinutes} minute{'' if numMinutes == 1 else 's'}"
 	if time >= 1:
 		numSeconds: int = int(time % 60)
-		seconds = f"{numSeconds} second{"" if numSeconds == 1 else "s"}"
+		seconds = f"{numSeconds} second{'' if numSeconds == 1 else 's'}"
 	numMilliseconds: int = round(time * 1000)
-	milliseconds = f"{numMilliseconds} millisecond{"" if numMilliseconds == 1 else "s"}"
+	milliseconds = f"{numMilliseconds} millisecond{'' if numMilliseconds == 1 else 's'}"
 
 	return joinWith(", ", joinWith(", ", hours, minutes), joinWith(", ", seconds, milliseconds))
