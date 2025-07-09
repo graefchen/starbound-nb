@@ -12,27 +12,10 @@ def strip_colors(input_string: str) -> str:
 def strip_planet_number(input_string: str) -> str:
 	return re.sub(f'[VI]+(?![\\w])( - [a-z])?', '', strip_colors(input_string)).strip()
 
-def joinWith(join: str, left: str, right: str) -> str:
-	"""
-	Taken from: https://github.com/rwf93/Starbound/blob/416da8fe8f102213160562ba372adc2a42bcdfca/source/core/StarString.cpp#L48-L65
-	"""
-	if left == "":
-		return right
-	if right == "":
-		return left
-	
-	if left.endswith(join):
-		if right.startswith(join):
-			return left + right[len(join):]
-		return left + right
-	else:
-		if right.startswith(join):
-			return left + right
-		return left + join + right
-
 def playtime_to_string(time: float) -> str:
 	"""
-	Taken from the (probably) original implementation: https://github.com/rwf93/Starbound/blob/416da8fe8f102213160562ba372adc2a42bcdfca/source/core/StarTime.cpp#L23-L46
+	Taken from the (probably) original implementation:
+	https://github.com/rwf93/Starbound/blob/416da8fe8f102213160562ba372adc2a42bcdfca/source/core/StarTime.cpp#L23-L46
 	"""
 	hours: str = ""
 	minutes: str = ""
@@ -51,4 +34,4 @@ def playtime_to_string(time: float) -> str:
 	numMilliseconds: int = round(time * 1000)
 	milliseconds = f"{numMilliseconds} millisecond{'' if numMilliseconds == 1 else 's'}"
 
-	return joinWith(", ", joinWith(", ", hours, minutes), joinWith(", ", seconds, milliseconds))
+	return ", ".join(x for x in [hours, minutes, seconds, milliseconds] if x)
