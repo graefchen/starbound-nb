@@ -34,4 +34,5 @@ def playtime_to_string(time: float) -> str:
 	numMilliseconds: int = round(time * 1000)
 	milliseconds = f"{numMilliseconds} millisecond{'' if numMilliseconds == 1 else 's'}"
 
+	# "if x" is very important as it ignores the values that empty
 	return ", ".join(x for x in [hours, minutes, seconds, milliseconds] if x)
